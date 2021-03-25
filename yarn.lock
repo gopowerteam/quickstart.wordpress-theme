@@ -97,7 +97,7 @@
     "@vue/reactivity" "3.0.7"
     "@vue/shared" "3.0.7"
 
-"@vue/runtime-dom@3.0.7":
+"@vue/runtime-dom@3.0.7", "@vue/runtime-dom@^3.0.7":
   version "3.0.7"
   resolved "https://registry.npm.taobao.org/@vue/runtime-dom/download/@vue/runtime-dom-3.0.7.tgz#b70668d729020bc4ad608c20367223f259576ba6"
   integrity sha1-twZo1ykCC8StYIwgNnIj8llXa6Y=
