@@ -27,8 +27,6 @@ function vite($entry): string
         . cssTag($entry);
 }
 
-
-// Helpers to print tags
 function jsTag(string $entry): string
 {
     $url =  assetUrl($entry);
