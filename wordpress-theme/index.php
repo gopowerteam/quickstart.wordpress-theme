@@ -5,7 +5,7 @@
 // During dev, this file would be hit when accessing your local host, like:
 // http://vite-php-setup.test
 
-require_once __DIR__ . '/functions.php';
+// require_once __DIR__ . '/functions.php';
 
 ?>
 <!DOCTYPE html>
