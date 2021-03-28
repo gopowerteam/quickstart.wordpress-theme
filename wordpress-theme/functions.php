@@ -7,6 +7,10 @@
 
 // on the links above there is also example for @vitejs/plugin-legacy
 
+register_nav_menus(array(
+    'NavMenu' => '系统菜单'
+));
+
 
 // Some dev/prod mechanism would exist in your project
 // Handling manualy here, change to test both cases

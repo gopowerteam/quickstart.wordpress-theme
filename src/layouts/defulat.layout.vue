@@ -2,14 +2,15 @@
 .app-container
   .app-content
     Header
-    router-view
+    Menu
+    .content
+      router-view
     Footer
 </template>
 <script setup lang="ts">
-import { request, gql } from 'graphql-request'
-
 import Header from './components/header.vue'
-import Footer from './components/header.vue'
+import Menu from './components/menu.vue'
+import Footer from './components/footer.vue'
 
 
 </script>
