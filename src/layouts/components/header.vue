@@ -1,5 +1,5 @@
 <template lang="pug">
-.title.flex.flex-row.justify-between.py-3.px-5 
+.title.text-sm.flex.flex-row.justify-between.py-3.px-5 
     .today {{today}}
     .hotline 服务热线：{{hotline}}
 .logo

@@ -1,9 +1,8 @@
 <template lang="pug">
-.app-container
-  .app-content
+.app-container.h-full.flex.flex-col
     Header
     Menu
-    .content
+    .content.flex-auto
       router-view
     Footer
 </template>

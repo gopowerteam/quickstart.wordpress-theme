@@ -10,4 +10,11 @@ import DefaultLayout from "./layouts/defulat.layout.vue";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body,
+#app {
+    height: 100%;
+    width: 100%;
+}
 </style>
