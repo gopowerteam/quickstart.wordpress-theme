@@ -18,16 +18,16 @@
                     .post.flex.flex-row.p-5.cursor-pointer(
                         @click="onEnterPost(recent.id)"
                     )
-                        .catalog.primary-color.font-bold 【{{recent.categories.nodes[0].name}}】
-                        .title.flex-auto.primary-color.font-bold {{recent.title}}
-                        .date 【{{dateFormat(recent.date,'YYYY.M.DD')}}】
+                        .catalog.primary-color.font-bold 【{{ recent.categories.nodes[0].name }}】
+                        .title.flex-auto.primary-color.font-bold {{ recent.title }}
+                        .date 【{{ dateFormat(recent.date, 'YYYY.M.DD') }}】
                     .more.space-x-1.absolute.right-0.bottom-0.p-5
                         .text.cursor-pointer.text-sm
                             span 阅读更多
                             span |
                             span more
                             span >
-                        
+
 
         .catalog-post.flex-1
             .catalog-header.flex.flex-row.items-center.space-x-4
@@ -37,8 +37,16 @@
                     :class="{ active: currentCategory.id === item.id }"
                     @click="onChangeCategory(item)"
                 ) {{ item.name }}
-            .catalog-list
-                
+            .post-list
+                .post(
+                    v-for="post in posts"
+                    :key="post.id"
+                    @click="onEnterPost(post.id)"
+                )
+                    .no-image.flex.flex-row.p-5.cursor-pointer(v-if="true")
+                        .catalog.primary-color.font-bold 【{{ recent.categories.nodes[0].name }}】
+                        .title.flex-auto.primary-color.font-bold {{ recent.title }}
+                        .date 【{{ dateFormat(recent.date, 'YYYY.M.DD') }}】
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from '@vue/runtime-core';
@@ -46,7 +54,7 @@ import { gql } from 'graphql-request';
 import { useRouter } from 'vue-router';
 import topImage from '../assets/home/top-image.jpg'
 import { useRequest } from '../graphql';
-import {dateFormat} from '../shared/utils/common.util'
+import { dateFormat } from '../shared/utils/common.util'
 const request = useRequest()
 
 const categories = ref<any[]>([])
@@ -73,6 +81,7 @@ function getPostCatalog() {
         const nodes = catalog.children.nodes
         categories.value = nodes
         currentCategory.value = nodes[0]
+        getPostByCategory(currentCategory.value.name)
     })
 }
 
@@ -99,22 +108,56 @@ function getLastPost() {
         }
     }`).then((data) => {
         const nodes = data.posts.nodes
-        if(nodes.length){
+        if (nodes.length) {
             recent.value = nodes[0]
         }
     })
 }
 
 
-
-function onChangeCategory(catagory){
-
+function getPostByCategory(category) {
+    request(gql`
+    query($category:String!) {
+        posts(first: 5,where: {categoryName: $category}) {
+            nodes {
+                id,
+                date
+                title
+                excerpt
+                featuredImage {
+                    node {
+                        mediaItemUrl
+                    }
+                }
+                categories {
+                    nodes {
+                        name
+                    }
+                }
+            }
+        }
+    }`,{
+        category
+    }).then((data) => {
+        if(currentCategory.value.name === category){
+            posts.value = data.posts.nodes
+            console.log(posts.value)
+        }
+    })
 }
 
-function onEnterPost(id) {
-  if (!id) return
 
-  router.push({ path: `/post/${id}` })
+function onChangeCategory(category) {
+    currentCategory.value = category
+    getPostByCategory(category.name)
+}
+
+
+
+function onEnterPost(id) {
+    if (!id) return
+
+    router.push({ path: `/post/${id}` })
 }
 
 
@@ -147,6 +190,9 @@ onMounted(() => {
             &.active
                 color #219461
                 font-weight bold
+                font-size 20px
+    .post-list
+        height 400px
 
 
 </style>
