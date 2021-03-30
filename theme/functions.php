@@ -17,6 +17,8 @@ register_nav_menus(array(
 
 remove_action( 'template_redirect', 'redirect_canonical' );
 
+$current_theme='default';
+
 // Redirect all requests to index.php so the Vue app is loaded and 404s aren't thrown
 function remove_redirects() {
 	add_rewrite_rule( '^/(.+)/?', 'index.php', 'top' );
@@ -24,10 +26,15 @@ function remove_redirects() {
 
 add_action( 'init', 'remove_redirects' );
 
-function vite($entry): string
+function vite($entry,$theme): string
 {
-    return jsTag($entry)
-        . jsPreloadImports($entry)
+
+    global $current_theme;
+
+    $current_theme = $theme;
+
+    return jsTag($entry,$theme)
+        . jsPreloadImports($entry,$theme)
         . cssTag($entry);
 }
 
@@ -82,9 +89,11 @@ function getManifest(): array
 function assetUrl(string $entry): string
 {
     $manifest = getManifest();
+
+    global $current_theme;
   
     return isset($manifest[$entry])
-        ? '/' . $manifest[$entry]['file']
+        ? '/wp-content/themes/'. $current_theme . '/' . $manifest[$entry]['file']
         : '';
 }
 
@@ -96,9 +105,11 @@ function importsUrls(string $entry): array
     $urls = [];
     $manifest = getManifest();
 
+    global $current_theme;
+
     if (!empty($manifest[$entry]['imports'])) {
         foreach ($manifest[$entry]['imports'] as $imports) {
-            $urls[] = '/' . $manifest[$imports]['file'];
+            $urls[] = '/wp-content/themes/'. $current_theme . '/' . $manifest[$imports]['file'];
         }
     }
     return $urls;
@@ -112,9 +123,11 @@ function cssUrls(string $entry): array
     $urls = [];
     $manifest = getManifest();
 
+    global $current_theme;
+
     if (!empty($manifest[$entry]['css'])) {
         foreach ($manifest[$entry]['css'] as $file) {
-            $urls[] = '/' . $file;
+            $urls[] = '/wp-content/themes/'. $current_theme . '/' . $file;
         }
     }
     return $urls;

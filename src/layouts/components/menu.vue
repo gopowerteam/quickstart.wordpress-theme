@@ -10,6 +10,8 @@
     ) {{ item.label }}
   .menu-children-panel.absolute.w-full.flex.flex-row.py-5(
     v-if="menuChildren && menuChildren.length"
+    @mouseenter="onEnterSubMenu()"
+    @mouseleave="onLeaveSubMenu()"
   )
     .menu-children-node.px-5(
       v-for="item in menuChildren"
@@ -38,6 +40,7 @@ const menus = ref<any[]>(localStorageMenus ? JSON.parse(localStorageMenus) : [])
 const menuChildren = ref<any[]>()
 const request = useRequest()
 const router = useRouter()
+const reading = ref(false)
 /**
  * 获取菜单项目
  */
@@ -91,9 +94,18 @@ function onEnterMenu(item) {
   }
 }
 
+function onEnterSubMenu(){
+  reading.value = true
+}
+
+function onLeaveSubMenu(){
+  reading.value = false
+  menuChildren.value = [] 
+}
+
 function onLeaveMenu(item) {
   setTimeout(() => {
-    if (menuChildren.value === item.children) {
+    if (menuChildren.value === item.children&&!reading.value) {
       menuChildren.value = []
     }
   }, 300)

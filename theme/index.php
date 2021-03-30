@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vite App</title>
 
-    <?= vite('index.html') ?>
+    <?= vite('index.html', 'default-theme') ?>
 </head>
 
 <body>
