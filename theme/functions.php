@@ -11,6 +11,8 @@ register_nav_menus(array(
     'NavMenu' => '系统菜单'
 ));
 
+add_theme_support('post-thumbnails');
+set_post_thumbnail_size(200, 200, true); // 图片宽度与高度
 
 // Some dev/prod mechanism would exist in your project
 // Handling manualy here, change to test both cases

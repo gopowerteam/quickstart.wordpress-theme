@@ -1,8 +1,10 @@
+import dayjs from "dayjs"
+
 /**
  * 列表数据转换为树形数据
  * @param param
  */
- export function convertToTree(
+export function convertToTree(
     data,
     {
         key,
@@ -45,4 +47,9 @@ export function groupBy(data: any[], key: string) {
         result[item[key]] = [...(result[item[key]] || []), item]
         return result
     }, {})
+}
+
+
+export function dateFormat(date, template) {
+    return dayjs(date).format(template)
 }
