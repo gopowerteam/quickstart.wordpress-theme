@@ -22,7 +22,7 @@
                         .title.flex-auto.primary-color.font-bold {{ recent.title }}
                         .date 【{{ dateFormat(recent.date, 'YYYY.M.DD') }}】
                     .more.space-x-1.absolute.right-0.bottom-0.p-5
-                        .text.cursor-pointer.text-sm
+                        .text.cursor-pointer.text-sm.space-x-2
                             span 阅读更多
                             span |
                             span more
@@ -37,16 +37,30 @@
                     :class="{ active: currentCategory.id === item.id }"
                     @click="onChangeCategory(item)"
                 ) {{ item.name }}
-            .post-list
+            .post-list.relative
                 .post(
-                    v-for="post in posts"
+                    v-for="(post,index) in posts"
                     :key="post.id"
                     @click="onEnterPost(post.id)"
                 )
-                    .no-image.flex.flex-row.p-5.cursor-pointer(v-if="true")
-                        .catalog.primary-color.font-bold 【{{ recent.categories.nodes[0].name }}】
-                        .title.flex-auto.primary-color.font-bold {{ recent.title }}
-                        .date 【{{ dateFormat(recent.date, 'YYYY.M.DD') }}】
+                    .flex.flex-row.p-5.cursor-pointer(v-if="index===0")
+                        img.image(:src="post.featuredImage.node.mediaItemUrl")
+                        .content.pl-5.flex.flex-col.flex-auto
+                            .title.flex.flex-row
+                                .catalog.primary-color.font-bold 【{{ post.categories.nodes[0].name }}】
+                                .title.flex-auto.primary-color.font-bold {{ post.title }}
+                            .excerpt.flex-auto(v-html="post.excerpt") 
+                            .date.text-right 【{{ dateFormat(post.date, 'YYYY.M.DD') }}】
+                    .flex.flex-row.p-5.cursor-pointer(v-else)
+                        .catalog.primary-color.font-bold 【{{ post.categories.nodes[0].name }}】
+                        .title.flex-auto.primary-color.font-bold {{ post.title }}
+                        .date.text-right 【{{ dateFormat(post.date, 'YYYY.M.DD') }}】
+                .more.space-x-1.absolute.right-0.bottom-0.p-5
+                    .text.cursor-pointer.text-sm.space-x-2
+                        span 阅读更多
+                        span |
+                        span more
+                        span >
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from '@vue/runtime-core';
@@ -193,6 +207,15 @@ onMounted(() => {
                 font-size 20px
     .post-list
         height 400px
+        background-color #F7F7F7
+        .post
+            border-bottom dashed 1px #e0e0e0
+            .image
+                width   150px
+                height 96px
+            .excerpt 
+                color #B6B7B7
+
 
 
 </style>

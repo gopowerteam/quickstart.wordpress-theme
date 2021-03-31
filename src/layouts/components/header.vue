@@ -15,5 +15,5 @@ const hotline = "96262 10106262"
 </script>
 <style lang="stylus" scoped>
 .title
-    background-color #F7F7F7
+    background-color #fff
 </style>
