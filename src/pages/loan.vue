@@ -11,7 +11,10 @@
                 .left-arrow.pt-10(@click="pageIndex[index] -= 1" :style="{ visibility: pageIndex[index] > 0 ? 'visible' : 'hidden' }")
                     img(:src="LeftIcon")
                 .content.flex.flex-row
-                    .product-item.p-2(v-for="product in category?.children?.slice(0+pageIndex[index]*4,4+pageIndex[index]*4)")
+                    .product-item.p-2.cursor-pointer(
+                        v-for="product in category?.children?.slice(0+pageIndex[index]*4,4+pageIndex[index]*4)"
+                        @click="onEnterPost(product.id)"
+                        )
                         img(:src="product?.connectedNode?.node?.featuredImage?.node?.mediaItemUrl")
                         .title.text-xs.w-24.py-2 {{ product.label }}
                 .right-arrow.pt-10(@click="pageIndex[index] += 1" :style="{ visibility: (pageIndex[index] * 4 + 4) < category?.children?.length ? 'visible' : 'hidden' }")
@@ -23,14 +26,16 @@ import { ref } from "vue";
 import LoadImage from '../assets/loan/loan-image.jpg'
 import LeftIcon from '../assets/loan/left.png'
 import RightIcon from '../assets/loan/right.png'
+import { useRouter } from "vue-router";
 
+const router = useRouter()
 const menus = JSON.parse(localStorage.getItem('menus') as string)
 const dataSource: any[] = menus.find(x => x.label === '贷款业务').children
 
 const pageIndex = ref(Array.from(Array(dataSource.length), () => 0))
 
-function onChangeProduct(index) {
-
+function onEnterPost(id) {
+    router.push({ path: `/post/${id}` })
 }
 
 onMounted(() => {

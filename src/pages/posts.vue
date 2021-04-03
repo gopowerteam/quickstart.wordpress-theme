@@ -131,11 +131,16 @@ onMounted(() => {
 .container
     margin 60px 50px 0 0
 .category
+  
     flex-basis 200px
     width 200px
     margin-right 10px
     .category-item
+        text-align center
+        padding 15px
+        background-color #f7f7f7
         &.active
+            background rgba(0,0,0,0.2)
             font-weight bold
 .posts
     .post
