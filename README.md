@@ -1,3 +1,9 @@
+# 打包说明
+
+基于Vue3 + Vite的 `Wordpress` 主题开发, 
+
+执行 `npm run build` 进行打包，进入`dist`目录将所有文件打包为zip压缩包 修改为文件名为`$主题名称`（现在主题名称为bank-theme,如要修改请全局搜索替换），打包后生成的`zip`文件使用`wordpress`的主题功能安装即可使用。
+
 # Vue 3 + Typescript + Vite
 
 This template should help get you started developing with Vue 3 and Typescript in Vite.
