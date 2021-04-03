@@ -131,9 +131,10 @@ onMounted(() => {
 .container
     margin 60px 50px 0 0
 .category
-  
     flex-basis 200px
     width 200px
+    min-width 200px
+    max-width 200px
     margin-right 10px
     .category-item
         text-align center
