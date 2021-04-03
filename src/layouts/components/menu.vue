@@ -56,11 +56,15 @@ function getMenuItems() {
           id
           menuItemId
           order
-          path
           connectedNode {
             node {
               ... on Post {
                 id
+                featuredImage {
+                  node {
+                    mediaItemUrl
+                  }
+                }
               }
               ... on Category {
                 description
@@ -78,8 +82,16 @@ function getMenuItems() {
 
 function onEnterPage(item) {
   switch (item.label) {
-    case '首页':
+    case '贷款业务':
+      router.push({ name: 'loan'})
+      break;
+    case '信息咨询':
+    case '关于我们':
+      router.push({ path: `/page/${item.label}` })
+      break;
+    default:
       window.location.href = '/'
+      break;
   }
 }
 
@@ -96,18 +108,18 @@ function onEnterMenu(item) {
   }
 }
 
-function onEnterSubMenu(){
+function onEnterSubMenu() {
   reading.value = true
 }
 
-function onLeaveSubMenu(){
+function onLeaveSubMenu() {
   reading.value = false
-  menuChildren.value = [] 
+  menuChildren.value = []
 }
 
 function onLeaveMenu(item) {
   setTimeout(() => {
-    if (menuChildren.value === item.children&&!reading.value) {
+    if (menuChildren.value === item.children && !reading.value) {
       menuChildren.value = []
     }
   }, 300)

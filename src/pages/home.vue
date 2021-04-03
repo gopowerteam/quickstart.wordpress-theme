@@ -70,9 +70,9 @@
                     .flex.flex-row.p-5.cursor-pointer(v-if="index === 0")
                         img.image(:src="post.featuredImage.node.mediaItemUrl")
                         .content.pl-5.flex.flex-col.flex-auto
-                            .title.flex.flex-row
-                                .catalog.primary-color.font-bold 【{{ post.categories.nodes[0].name }}】
-                                .title.flex-auto.primary-color.font-bold {{ post.title }}
+                            .title
+                                span.catalog.primary-color.font-bold 【{{ post.categories.nodes[0].name }}】
+                                span.title.primary-color.font-bold {{ post.title }}
                             .excerpt.flex-auto(v-html="post.excerpt") 
                             .date.text-right 【{{ dateFormat(post.date, 'YYYY.M.DD') }}】
                     .flex.flex-row.p-5.cursor-pointer(v-else)
@@ -318,6 +318,8 @@ onMounted(() => {
             right 0
             height 150px
             background-color rgba(255,255,255,0.7)
+            .catalog
+                min-width 100px
 
 .catalog-post
     .catalog-header
@@ -330,6 +332,8 @@ onMounted(() => {
         height 400px
         background-color #F7F7F7
         .post
+            .catalog
+                min-width 100px
             border-bottom dashed 1px #e0e0e0
             .image
                 width   150px
