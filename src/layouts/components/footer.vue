@@ -31,23 +31,27 @@
                     .bank 网点查询
                     .space |
                     .bank 网站地图
-        .qrcode.flex-1.flex.flex-row.justify-center.space-x-5
+        .qrcode.flex-1.flex.flex-row.justify-center.space-x-8.items-end
             .wechat
                 .image
+                    img.m-auto(:src="QrCode1")
                 .name.p-2 秦都农商银行微信公众号
             .app
                 .image
+                    img.m-auto(:src="QrCode1")
                 .name.p-2 陕西信合手机APP
-          
+
 
     .contact.flex.flex-row.justify-center.space-x-5.py-2.text-sm
         .copyright ©版权所有：秦都农商银行版权所有
         .address 地址：咸阳市渭阳西路8号信合大厦
         .hotline 服务热线：96262 / 10106262
         .support 技术支持：西安灰度广告设计
-        
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import QrCode1 from "../../assets/home/qrcode-1.png"
+import QrCode2 from "../../assets/home/qrcode-2.png"
+</script>
 <style lang="stylus" scoped>
 .content
     background-color #219461
@@ -56,7 +60,12 @@
         .title 
             font-size 21px
             font-weight bold
+    .qrcode
+        img 
+            width 150px
+            height 150px
 
 .contact
     background-color #F7B200
+
 </style>

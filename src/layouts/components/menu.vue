@@ -1,5 +1,5 @@
 <template lang="pug">
-.menu 
+.menu.absolute.inset-x-0
   .menu-container.flex.flex-row
     .menu-item.font-bold.py-5.px-5(
       v-for="item in menus"
@@ -22,11 +22,13 @@
         span |  
         span.pl-2 {{ item.connectedNode?.node?.description }}
       ul.node-list.pt-3
-        li.node-item.text-xs.pb-1.cursor-pointer(
+        li.node-item.text-xs.pb-1.pr-10.cursor-pointer.text-left(
           v-for="node in item.children"
           :key="node.id"
           @click="onEnterPost(node.connectedNode?.node?.id)"
-        ) {{ node.label }}
+        )  
+          span.font-bold.pr-2 ·
+          span {{ node.label }}
 </template>
 <script setup lang="ts">
 import { onMounted, ref } from "@vue/runtime-core";
@@ -47,7 +49,7 @@ const reading = ref(false)
 function getMenuItems() {
   request(gql`
     query {
-      menuItems {
+      menuItems(first:500) {
         nodes {
           label
           parentId
@@ -120,7 +122,8 @@ onMounted(() => {
 </script>
 <style lang="stylus" scoped>
 .menu
-  background-color rgb(30,141,96)
+  top 124px
+  background-color rgba(14,109,70,0.8)
   .menu-item
     color #fff
     cursor pointer
@@ -128,11 +131,17 @@ onMounted(() => {
       color #F7B200
 
 .menu-children-panel
-  background rgba(255,255,255,1)
+  height 300px
+  background rgba(255,255,255,0.9)
   .menu-children-node
     .title 
       font-size 18px
       color #349C6E
     .node-list
-      list-style inside
+      writing-mode vertical-lr
+      height 220px
+      .node-item
+        writing-mode horizontal-tb
+        display inline-block
+        vertical-align bottom
 </style>

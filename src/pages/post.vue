@@ -41,4 +41,7 @@ onMounted(() => {
     getPostContent(id)
 })
 </script>
-<style lang="stylus" scoped></style>
+<style lang="stylus" scoped>
+.content
+    margin-top 60px!important
+</style>
