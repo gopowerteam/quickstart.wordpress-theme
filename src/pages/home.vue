@@ -8,7 +8,7 @@
             .catalog 【{{ recent.categories.nodes[0].name }}】
             .title.flex-auto {{ recent.title }}
             .date 【{{ dateFormat(recent.date, 'YYYY.M.DD') }}】
-        .more  阅读更多 >
+        .more(@click="onEnterPosts")  阅读更多 >
 
     .load-service.flex.flex-row
         .card-item.flex(v-for="(product,index) in productItems" :key="index" :class="{ 'flex-auto': productIndex === index }")
@@ -20,14 +20,14 @@
                     .sub-title.text-sm {{ product.subTitle }}
             .content.p-5.w-full(v-else)
                 .title.space-x-2.font-bold
-                    span.primary-color.text-lg {{product.title}}
+                    span.primary-color.text-lg {{ product.title }}
                     span.secord-color |
-                    span.secord-color {{product.subTitle}}
+                    span.secord-color {{ product.subTitle }}
                 .product-content.flex.flex-wrap.h-full
                     .product-content-item.flex.flex-col.justify-center.items-center(class="w-2/4 h-2/4" v-for="(item,index) in product.children")
                         img.w-20.m-2.cursor-pointer(:src="item.icon")
-                        .title.cursor-pointer {{item.title}}
-                        .sub-title.text-xs.cursor-pointer {{item.subTitle}}
+                        .title.cursor-pointer {{ item.title }}
+                        .sub-title.text-xs.cursor-pointer {{ item.subTitle }}
     .page-container.flex.flex-row.p-10.space-x-5
         .recent-post.flex-1
             .title.py-5.space-x-2
@@ -46,7 +46,7 @@
                         .title.flex-auto.primary-color.font-bold {{ recent.title }}
                         .date 【{{ dateFormat(recent.date, 'YYYY.M.DD') }}】
                     .more.space-x-1.absolute.right-0.bottom-0.p-5
-                        .text.cursor-pointer.text-sm.space-x-2
+                        .text.cursor-pointer.text-sm.space-x-2(@click="onEnterPosts")
                             span 阅读更多
                             span |
                             span more
@@ -80,7 +80,7 @@
                         .title.flex-auto.primary-color.font-bold {{ post.title }}
                         .date.text-right 【{{ dateFormat(post.date, 'YYYY.M.DD') }}】
                 .more.space-x-1.absolute.right-0.bottom-0.p-5
-                    .text.cursor-pointer.text-sm.space-x-2
+                    .text.cursor-pointer.text-sm.space-x-2(@click="onEnterPosts")
                         span 阅读更多
                         span |
                         span more
@@ -269,6 +269,10 @@ function onChangeCategory(category) {
     getPostByCategory(category.name)
 }
 
+
+function onEnterPosts() {
+    router.push({ name: 'posts' })
+}
 
 
 function onEnterPost(id) {
