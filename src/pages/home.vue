@@ -75,7 +75,7 @@
                                 span.title.primary-color.font-bold {{ post.title }}
                             .excerpt.flex-auto(v-html="post.excerpt") 
                             .date.text-right 【{{ dateFormat(post.date, 'YYYY.M.DD') }}】
-                    .flex.flex-row.p-5.cursor-pointer(v-else)
+                    .flex.flex-row.p-5.cursor-pointer.no-first(v-else) 
                         .catalog.primary-color.font-bold 【{{ post.categories.nodes[0].name }}】
                         .title.flex-auto.primary-color.font-bold {{ post.title }}
                         .date.text-right 【{{ dateFormat(post.date, 'YYYY.M.DD') }}】
@@ -313,6 +313,7 @@ onMounted(() => {
         .front
             background-color rgba(0,0,0,0.5)
 .recent-post
+    max-width 50%
     .card
         background-size 100% 100%
         height 400px
@@ -326,6 +327,7 @@ onMounted(() => {
                 min-width 100px
 
 .catalog-post
+    max-width 50%
     .catalog-header
         .catalog-header-item
             &.active
@@ -344,6 +346,12 @@ onMounted(() => {
                 height 96px
             .excerpt 
                 color #B6B7B7
+            .no-first
+                .title
+                    word-break: break-all;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
 
 
 

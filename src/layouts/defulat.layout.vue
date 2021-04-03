@@ -1,6 +1,6 @@
 <template lang="pug">
 .app-container.absolute.inset-0
-  .app-content.flex.flex-col.m-auto
+  .app-content.relative.flex.flex-col.m-auto
       Header
       Menu
       .content.flex-auto
@@ -22,6 +22,7 @@ import Footer from './components/footer.vue'
   overflow auto
 .app-content
   max-width 1280px
+  min-width 1024px
   min-height 100%
   background-color #fff
  
