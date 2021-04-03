@@ -83,9 +83,11 @@ function getMenuItems() {
 function onEnterPage(item) {
   switch (item.label) {
     case '贷款业务':
-      router.push({ name: 'loan'})
+      router.push({ name: 'loan' })
       break;
     case '信息咨询':
+      router.push({ name: 'posts' })
+      break
     case '关于我们':
       router.push({ path: `/page/${item.label}` })
       break;

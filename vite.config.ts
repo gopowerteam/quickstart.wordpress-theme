@@ -6,7 +6,7 @@ const production = process.env.NODE_ENV === 'production'
 // https://vitejs.dev/config/
 
 export default defineConfig({
-  base: production ? '/wp-content/themes/default-theme/' : '/',
+  base: production ? '/wp-content/themes/bank-theme/' : '/',
   plugins: [vue(), copy({
     targets: [{
       src: ['./theme/*'],
