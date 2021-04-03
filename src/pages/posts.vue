@@ -1,7 +1,7 @@
 
 <template lang="pug">
 .posts
-    .post(v-for="post in posts")
+    .post(v-for="post in posts" @click="onEnterPost(post.id)")
         .flex.flex-row.p-5.cursor-pointer
             img.image(:src="post?.featuredImage?.node?.mediaItemUrl")
             .content.pl-5.flex.flex-col.flex-auto
@@ -30,7 +30,7 @@ const cursor = ref("")
 
 function getLastPost() {
     request(gql`
-    query($cursor:String!) {
+    query($cursor:String) {
         posts(first: 10,after:$cursor) {
             nodes {
                 id,
@@ -64,6 +64,13 @@ function getLastPost() {
         }
     })
 }
+
+function onEnterPost(id) {
+    if (!id) return
+
+    router.push({ path: `/post/${id}` })
+}
+
 
 
 onMounted(() => {

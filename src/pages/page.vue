@@ -18,7 +18,7 @@ const content = ref<any>()
 
 function getPageContent(name) {
     request(gql`
-    query($name: String!) {
+    query($name: String) {
         posts(where: {name: $name}, first: 1) {
             nodes {
             date
