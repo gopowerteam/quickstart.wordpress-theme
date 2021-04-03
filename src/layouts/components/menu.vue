@@ -145,7 +145,7 @@ onMounted(() => {
       color #F7B200
 
 .menu-children-panel
-  height 300px
+  height 350px
   background rgba(255,255,255,0.9)
   .menu-children-node
     .title 
@@ -153,7 +153,7 @@ onMounted(() => {
       color #349C6E
     .node-list
       writing-mode vertical-lr
-      height 220px
+      height 280px
       .node-item
         writing-mode horizontal-tb
         display inline-block
