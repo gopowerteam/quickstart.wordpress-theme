@@ -62,8 +62,6 @@ function getLastPost() {
         if (nodes.length) {
             posts.value.push(...nodes)
         }
-
-        console.log(data)
     })
 }
 
