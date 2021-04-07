@@ -137,7 +137,7 @@ onMounted(() => {
 <style lang="stylus" scoped>
 .menu
   top 124px
-  background-color rgba(14,109,70,0.8)
+  background-color rgba(11,130,77,0.86)
   .menu-item
     color #fff
     cursor pointer
@@ -146,7 +146,7 @@ onMounted(() => {
 
 .menu-children-panel
   height 350px
-  background rgba(255,255,255,0.9)
+  background-color rgba(255,255,255,0.9)
   .menu-children-node
     .title 
       font-size 18px
