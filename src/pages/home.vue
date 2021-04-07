@@ -1,4 +1,3 @@
-
 <template lang="pug">
 .home
     .header-image
@@ -11,14 +10,14 @@
         .more(@click="onEnterPosts")  阅读更多 >
 
     .load-service.flex.flex-row
-        .card-item.flex(v-for="(product,index) in productItems" :key="index" :class="{ 'flex-auto': productIndex === index }")
-            .cover.relative(v-if="productIndex !== index" @click="productIndex = index")
+        .card-item.flex(v-for="(product,index) in productItems" :key="index" :class="{ 'open': productIndex === index, 'close': productIndex !== index }")
+            .cover.relative(v-show="productIndex !== index" @click="productIndex = index")
                 img.background.absolute.inset-0.z-1(:src="product.bgImage")
                 .front.absolute.inset-0.z-10.flex.flex-col.items-center.justify-center.text-white
                     img.py-5(:src="product.icon")
                     .title.font-bold {{ product.title }}
                     .sub-title.text-sm {{ product.subTitle }}
-            .content.p-5.w-full(v-else)
+            .content.p-5.w-full(v-show="productIndex === index")
                 .title.space-x-2.font-bold
                     span.primary-color.text-lg {{ product.title }}
                     span.secord-color |
@@ -87,272 +86,306 @@
                         span >
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from '@vue/runtime-core';
-import { gql } from 'graphql-request';
-import { useRouter } from 'vue-router';
-import topImage from '../assets/home/top-image.jpg'
-import { useRequest } from '../graphql';
-import { dateFormat } from '../shared/utils/common.util'
-import LoadCover from '../assets/home/load-cover.png'
-import SaveCover from '../assets/home/save-cover.png'
-import BankCover from '../assets/home/bank-cover.png'
-import CardCover from '../assets/home/card-cover.png'
-import LoadItem1 from '../assets/home/load-1.png'
-import LoadItem2 from '../assets/home/load-2.png'
-import LoadItem3 from '../assets/home/load-3.png'
-import LoadItem4 from '../assets/home/load-4.png'
-import SaveItem1 from '../assets/home/save-1.png'
-import BankItem1 from '../assets/home/bank-1.png'
-import CardItem1 from '../assets/home/card-1.png'
-import productBg1 from '../assets/home/product-bg-1.jpg'
-import productBg2 from '../assets/home/product-bg-2.jpg'
-import productBg3 from '../assets/home/product-bg-3.jpg'
-import productBg4 from '../assets/home/product-bg-4.jpg'
-const request = useRequest()
+import { onMounted, ref } from "@vue/runtime-core";
+import { gql } from "graphql-request";
+import { useRouter } from "vue-router";
+import topImage from "../assets/home/top-image.jpg";
+import { useRequest } from "../graphql";
+import { dateFormat } from "../shared/utils/common.util";
+import LoadCover from "../assets/home/load-cover.png";
+import SaveCover from "../assets/home/save-cover.png";
+import BankCover from "../assets/home/bank-cover.png";
+import CardCover from "../assets/home/card-cover.png";
+import LoadItem1 from "../assets/home/load-1.png";
+import LoadItem2 from "../assets/home/load-2.png";
+import LoadItem3 from "../assets/home/load-3.png";
+import LoadItem4 from "../assets/home/load-4.png";
+import SaveItem1 from "../assets/home/save-1.png";
+import BankItem1 from "../assets/home/bank-1.png";
+import CardItem1 from "../assets/home/card-1.png";
+import productBg1 from "../assets/home/product-bg-1.jpg";
+import productBg2 from "../assets/home/product-bg-2.jpg";
+import productBg3 from "../assets/home/product-bg-3.jpg";
+import productBg4 from "../assets/home/product-bg-4.jpg";
+const request = useRequest();
 
-const categories = ref<any[]>([])
-const currentCategory = ref<any>()
-const recent = ref<any>()
-const posts = ref<any[]>([])
-const router = useRouter()
+const categories = ref<any[]>([]);
+const currentCategory = ref<any>();
+const recent = ref<any>();
+const posts = ref<any[]>([]);
+const router = useRouter();
 
-const productIndex = ref(0)
+const productIndex = ref(0);
 
 const productItems = ref<any[]>([
-    {
-        title: '贷款业务',
-        subTitle: 'Load service',
-        icon: LoadCover,
-        bgImage: productBg1,
-        children: [{
-            title: '个人类贷款',
-            subTitle: 'Personal class',
-            icon: LoadItem1
-        }, {
-            title: '公司类贷款',
-            subTitle: 'Company class',
-            icon: LoadItem2
-        }, {
-            title: '特色类贷款',
-            subTitle: 'Featured class',
-            icon: LoadItem3
-        }, {
-            title: '综合类贷款',
-            subTitle: 'Integrated class',
-            icon: LoadItem4
-        }]
-    },
-    {
-        title: '存款业务',
-        subTitle: 'Deposit service',
-        icon: SaveCover,
-        bgImage: productBg2,
-        children: [{
-            title: '存款业务',
-            subTitle: 'Deposit service',
-            icon: SaveItem1
-        }]
-    },
-    {
-        title: '电子银行',
-        subTitle: 'Elctronic Banking Products',
-        icon: BankCover,
-        bgImage: productBg3,
-        children: [
-            {
-                title: '电子银行',
-                subTitle: 'Elctronic Banking Products',
-                icon: BankItem1
-            }
-        ]
-    },
-    {
-        title: '银行卡',
-        subTitle: 'Bank card products',
-        icon: CardCover,
-        bgImage: productBg4,
-        children: [
-            {
-                title: '银行卡',
-                subTitle: 'Bank card products',
-                icon: CardItem1
-            }
-        ]
-    }
-])
+  {
+    title: "贷款业务",
+    subTitle: "Load service",
+    icon: LoadCover,
+    bgImage: productBg1,
+    children: [
+      {
+        title: "个人类贷款",
+        subTitle: "Personal class",
+        icon: LoadItem1,
+      },
+      {
+        title: "公司类贷款",
+        subTitle: "Company class",
+        icon: LoadItem2,
+      },
+      {
+        title: "特色类贷款",
+        subTitle: "Featured class",
+        icon: LoadItem3,
+      },
+      {
+        title: "综合类贷款",
+        subTitle: "Integrated class",
+        icon: LoadItem4,
+      },
+    ],
+  },
+  {
+    title: "存款业务",
+    subTitle: "Deposit service",
+    icon: SaveCover,
+    bgImage: productBg2,
+    children: [
+      {
+        title: "存款业务",
+        subTitle: "Deposit service",
+        icon: SaveItem1,
+      },
+    ],
+  },
+  {
+    title: "电子银行",
+    subTitle: "Elctronic Banking Products",
+    icon: BankCover,
+    bgImage: productBg3,
+    children: [
+      {
+        title: "电子银行",
+        subTitle: "Elctronic Banking Products",
+        icon: BankItem1,
+      },
+    ],
+  },
+  {
+    title: "银行卡",
+    subTitle: "Bank card products",
+    icon: CardCover,
+    bgImage: productBg4,
+    children: [
+      {
+        title: "银行卡",
+        subTitle: "Bank card products",
+        icon: CardItem1,
+      },
+    ],
+  },
+]);
 
 function getPostCatalog() {
-    request(gql`
+  request(gql`
     query {
-        categories(where: {name: "资讯文章"}) {
+      categories(where: { name: "资讯文章" }) {
+        nodes {
+          children {
             nodes {
-                children {
-                    nodes {
-                        id
-                        name
-                    }
-                }
+              id
+              name
             }
+          }
         }
-    }`).then((data) => {
-        const [catalog] = data.categories.nodes
-        const nodes = catalog.children.nodes
-        categories.value = nodes
-        currentCategory.value = nodes[0]
-        getPostByCategory(currentCategory.value.name)
-    })
+      }
+    }
+  `).then((data) => {
+    const [catalog] = data.categories.nodes;
+    const nodes = catalog.children.nodes;
+    categories.value = nodes;
+    currentCategory.value = nodes[0];
+    getPostByCategory(currentCategory.value.name);
+  });
 }
 
 function getLastPost() {
-    request(gql`
+  request(gql`
     query {
-        posts(first: 1) {
-            nodes {
-                id,
-                date
-                title
-                excerpt
-                featuredImage {
-                    node {
-                        mediaItemUrl
-                    }
-                }
-                categories {
-                    nodes {
-                        name
-                    }
-                }
+      posts(first: 1) {
+        nodes {
+          id
+          date
+          title
+          excerpt
+          featuredImage {
+            node {
+              mediaItemUrl
             }
+          }
+          categories {
+            nodes {
+              name
+            }
+          }
         }
-    }`).then((data) => {
-        const nodes = data.posts.nodes
-        if (nodes.length) {
-            recent.value = nodes[0]
-        }
-    })
+      }
+    }
+  `).then((data) => {
+    const nodes = data.posts.nodes;
+    if (nodes.length) {
+      recent.value = nodes[0];
+    }
+  });
 }
-
 
 function getPostByCategory(category) {
-    request(gql`
-    query($category:String!) {
-        posts(first: 5,where: {categoryName: $category}) {
-            nodes {
-                id,
-                date
-                title
-                excerpt
-                featuredImage {
-                    node {
-                        mediaItemUrl
-                    }
-                }
-                categories {
-                    nodes {
-                        name
-                    }
-                }
+  request(
+    gql`
+      query($category: String!) {
+        posts(first: 5, where: { categoryName: $category }) {
+          nodes {
+            id
+            date
+            title
+            excerpt
+            featuredImage {
+              node {
+                mediaItemUrl
+              }
             }
+            categories {
+              nodes {
+                name
+              }
+            }
+          }
         }
-    }`, {
-        category
-    }).then((data) => {
-        if (currentCategory.value.name === category) {
-            posts.value = data.posts.nodes
-        }
-    })
+      }
+    `,
+    {
+      category,
+    }
+  ).then((data) => {
+    if (currentCategory.value.name === category) {
+      posts.value = data.posts.nodes;
+    }
+  });
 }
-
 
 function onChangeCategory(category) {
-    currentCategory.value = category
-    getPostByCategory(category.name)
+  currentCategory.value = category;
+  getPostByCategory(category.name);
 }
-
 
 function onEnterPosts() {
-    router.push({ name: 'posts' })
+  router.push({ name: "posts" });
 }
-
 
 function onEnterPost(id) {
-    if (!id) return
+  if (!id) return;
 
-    router.push({ path: `/post/${id}` })
+  router.push({ path: `/post/${id}` });
 }
 
-
-
 onMounted(() => {
-    getPostCatalog()
-    getLastPost()
-})
-
+  getPostCatalog();
+  getLastPost();
+});
 </script>
-<style lang="stylus" scoped>
-.primary-color
-    color #219461
-.secord-color
-    color #F7B200
+<style lang="stylus">
+.home
+    .primary-color
+        color #219461
+    .secord-color
+        color #F7B200
 
-.notify
-    background-color #219461
-    .title
-        min-width 400px
-.load-service
-    background-color #f7f7f7
-    &,.cover,.content,.front
-        height 424px
-    .cover
-        width 200px
-        background-size 100% 100%
-        background-repeat no-repeat
-        background-origin 0.5 0.5
-        .background
-            filter blur(0.5px)
-        .front
-            background-color rgba(0,0,0,0.5)
-.recent-post
-    max-width 50%
-    .card
-        background-size 100% 100%
-        height 400px
-        .card-panel
-            bottom 0
-            left 0
-            right 0
-            height 150px
-            background-color rgba(255,255,255,0.7)
-            .catalog
-                min-width 100px
+    .notify
+        background-color #219461
+        .title
+            min-width 400px
 
-.catalog-post
-    max-width 50%
-    .catalog-header
-        .catalog-header-item
-            &.active
-                color #219461
-                font-weight bold
-                font-size 20px
-    .post-list
-        height 400px
-        background-color #F7F7F7
-        .post
-            .catalog
-                min-width 100px
-            border-bottom dashed 1px #e0e0e0
-            .image
-                width   150px
-                height 96px
-            .excerpt 
-                color #B6B7B7
-            .no-first
-                .title
-                    word-break: break-all;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    overflow: hidden;
+    @keyframes fade
+        0%
+            opacity 0
+        100%
+            opacity 1
 
+    .load-service
+        background-color #f7f7f7
+        &,.cover,.content,.front
+            height 424px
+        .card-item
+            overflow  hidden
+            &.close
+                width 20%
+            &.open
+                width 40%
+                opacity 1
 
+        .open
+            transition 0.5s ease
+        .close
+            transition 0.5s ease
 
+        .cover
+            width 100%
+            background-size 100% 100%
+            background-repeat no-repeat
+            background-origin 0.5 0.5
+            .background
+                filter blur(0.5px)
+            .front
+                background-color rgba(0,0,0,0.5)
+
+        .content
+            min-width 400px
+            animation-name fade
+            animation-duration 1s
+        .active
+            transition opacity 1s ease
+        .product-content
+            padding 10px
+
+    .recent-post
+        max-width 50%
+        .card
+            background-size 100% 100%
+            height 400px
+            .card-panel
+                bottom 0
+                left 0
+                right 0
+                height 150px
+                background-color rgba(255,255,255,0.7)
+                .catalog
+                    min-width 100px
+
+    .catalog-post
+        max-width 50%
+        .catalog-header
+            .catalog-header-item
+                &.active
+                    color #219461
+                    font-weight bold
+                    font-size 20px
+        .post-list
+            height 400px
+            background-color #F7F7F7
+            .post
+                .catalog
+                    min-width 100px
+                border-bottom dashed 1px #e0e0e0
+                .image
+                    width   150px
+                    height 96px
+                .excerpt
+                    color #B6B7B7
+                .no-first
+                    .title
+                        word-break: break-all;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
 </style>
